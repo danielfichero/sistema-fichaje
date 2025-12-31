@@ -615,7 +615,12 @@
 
 
         (async function validarIP() {
-    const IP_PERMITIDA = "181.169.114.42";
+    const IPS_PERMITIDAS = [
+        "181.169.114.42",   
+        "186.23.33.178",   
+        "181.44.87.96",    
+        "186.23.48.159"
+    ];
 
     try {
         const res = await fetch("https://api.ipify.org?format=json");
