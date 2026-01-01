@@ -626,7 +626,7 @@
         const res = await fetch("https://api.ipify.org?format=json");
         const data = await res.json();
 
-        if (data.ip !== IP_PERMITIDA) {
+        if (data.ip !== IPS_PERMITIDA) {
             document.body.innerHTML = `
                 <div style="text-align:center; padding:40px; font-family:sans-serif;">
                     <h2>🚫 Acceso no autorizado</h2>
