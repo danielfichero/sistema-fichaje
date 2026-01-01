@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            
             --primary: #666666;      
             --secondary: #FF66A8;   
             --secondary-light: #FF99C2; 
@@ -525,7 +524,6 @@
                 <p>Registro de entradas y salidas</p>
             </div>
             
-            
             <div id="screen-home" class="screen active">
                 <h3 class="screen-title">Seleccioná tu local</h3>
                 
@@ -612,32 +610,40 @@
     </div>
 
     <script>
-
-
+        // Función de validación de IP corregida
         (async function validarIP() {
-    const IPS_PERMITIDAS = [
-        "181.169.114.42",   
-        "186.23.33.178",   
-        "181.44.87.96",    
-        "186.23.48.159"
-    ];
+            const IPS_PERMITIDAS = [
+                "181.169.114.42",   
+                "186.23.33.178",   
+                "181.44.87.96",    
+                "186.23.48.159"
+            ];
 
-    try {
-        const res = await fetch("https://api.ipify.org?format=json");
-        const data = await res.json();
-
-        if (data.ip !== IPS_PERMITIDA) {
-            document.body.innerHTML = `
-                <div style="text-align:center; padding:40px; font-family:sans-serif;">
-                    <h2>🚫 Acceso no autorizado</h2>
-                    <p>Este sistema solo puede usarse desde la red de la heladería.</p>
-                </div>
-            `;
-        }
-    } catch (e) {
-        document.body.innerHTML = "Error al validar IP";
-    }
-})();
+            try {
+                const res = await fetch("https://api.ipify.org?format=json");
+                const data = await res.json();
+                
+                // Para debuggear - muestra la IP en la consola
+                console.log("IP detectada:", data.ip);
+                console.log("IPs permitidas:", IPS_PERMITIDAS);
+                
+                // Verifica si la IP está en la lista de permitidas
+                if (!IPS_PERMITIDAS.includes(data.ip)) {
+                    document.body.innerHTML = `
+                        <div style="text-align:center; padding:40px; font-family:sans-serif;">
+                            <h2>🚫 Acceso no autorizado</h2>
+                            <p>IP detectada: ${data.ip}</p>
+                            <p>Este sistema solo puede usarse desde la red de la heladería.</p>
+                        </div>
+                    `;
+                }
+            } catch (e) {
+                console.error("Error al validar IP:", e);
+                // Si hay error en la validación, permite el acceso para no bloquear el sistema
+                // Puedes descomentar la siguiente línea si prefieres bloquear en caso de error
+                // document.body.innerHTML = "Error al validar IP";
+            }
+        })();
         
         function detectDeviceInfo() {
             const userAgent = navigator.userAgent;
@@ -652,7 +658,6 @@
                 cookies: navigator.cookieEnabled ? 'Sí' : 'No'
             };
             
-         
             if (/mobile/i.test(userAgent)) {
                 deviceInfo.tipo = 'Celular';
                 if (/samsung/i.test(userAgent)) deviceInfo.marca = 'Samsung';
@@ -672,7 +677,6 @@
                 deviceInfo.marca = screen.width < 1440 ? 'Laptop' : 'PC Escritorio';
             }
             
-         
             if (/chrome/i.test(userAgent) && !/edg/i.test(userAgent)) deviceInfo.navegador = 'Chrome';
             else if (/firefox/i.test(userAgent)) deviceInfo.navegador = 'Firefox';
             else if (/safari/i.test(userAgent) && !/chrome/i.test(userAgent)) deviceInfo.navegador = 'Safari';
@@ -695,8 +699,6 @@
             return deviceInfo;
         }
         
-      
-        
         async function obtenerIP() {
             try {
                 const response = await fetch('https://api.ipify.org?format=json');
@@ -707,15 +709,10 @@
             }
         }
         
-    
-        
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyYRKU8HNbfaGOoMNMcpGbY4lrWp0rbjrv5w0V3HH8ZnqKx5kUv47rtroawa_PtDb4A/exec";
         
-      
         let currentLocal = '';
         let currentType = 'entrada';
-        
-       
         
         function selectLocal(local) {
             currentLocal = local;
@@ -775,7 +772,6 @@
             document.getElementById(screenId).classList.add('active');
         }
         
-      
         async function submitFichaje() {
             const dni = document.getElementById('dni-input').value.trim();
             
@@ -853,8 +849,6 @@
             });
         }
         
-     
-        
         function showMessage(text, type) {
             const messageDiv = document.getElementById('message');
             messageDiv.innerHTML = text;
@@ -866,8 +860,6 @@
             messageDiv.className = 'message';
             messageDiv.innerHTML = '';
         }
-        
-      
         
         document.getElementById('dni-input').addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
@@ -881,4 +873,3 @@
     </script>
 </body>
 </html>
-
